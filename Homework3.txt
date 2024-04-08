@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Generic;
+
+// Book Class
+public class Book
+{
+    // Properties
+    public string Title { get; set; }
+    public Author Author { get; set; }
+    public Category Category { get; set; }
+    public int Year { get; set; }
+    public double Price { get; set; }
+
+    // Constructors
+    public Book(string title, Author author, Category category, int year, double price)
+    {
+        Title = title;
+        Author = author;
+        Category = category;
+        Year = year;
+        Price = price;
+    }
+}
+
+// Author Class
+public class Author
+{
+    // Properties
+    public string Name { get; set; }
+    public string Biography { get; set; }
+
+    // Constructors
+    public Author(string name, string biography)
+    {
+        Name = name;
+        Biography = biography;
+    }
+}
+
+// Sealed Category Class
+public sealed class Category
+{
+    // Properties
+    public string CategoryName { get; set; }
+    public string Description { get; set; }
+
+    // Constructors
+    public Category(string categoryName, string description)
+    {
+        CategoryName = categoryName;
+        Description = description;
+    }
+}
+
+// Static LibraryManager Class
+public static class LibraryManager
+{
+    // List of Books
+    private static List<Book> books = new List<Book>();
+
+    // Add Book Method
+    public static void AddBook(Book book)
+    {
+        books.Add(book);
+    }
+
+    // Remove Book Method
+    public static void RemoveBook(string title)
+    {
+        Book bookToRemove = books.Find(b => b.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+        if (bookToRemove != null)
+        {
+            books.Remove(bookToRemove);
+            Console.WriteLine("Book removed successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Book not found in the library.");
+        }
+    }
+
+    // List All Books Method
+    public static void ListAllBooks()
+    {
+        Console.WriteLine("List of Books in the Library:");
+        foreach (var book in books)
+        {
+            Console.WriteLine($"Title: {book.Title}, Author: {book.Author.Name}, Category: {book.Category.CategoryName}, Year: {book.Year}, Price: {book.Price}");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create Authors
+        Author author1 = new Author("Author 1", "Biography of Author 1");
+        Author author2 = new Author("Author 2", "Biography of Author 2");
+
+        // Create Categories
+        Category category1 = new Category("Category 1", "Description of Category 1");
+        Category category2 = new Category("Category 2", "Description of Category 2");
+
+        // Create Books
+        Book book1 = new Book("Book 1", author1, category1, 2022, 19.99);
+        Book book2 = new Book("Book 2", author2, category2, 2020, 24.99);
+
+        // Add Books to Library
+        LibraryManager.AddBook(book1);
+        LibraryManager.AddBook(book2);
+
+        // List All Books
+        LibraryManager.ListAllBooks();
+
+        // Remove Book
+        LibraryManager.RemoveBook("Book 1");
+
+        // List All Books Again
+        LibraryManager.ListAllBooks();
+    }
+}
